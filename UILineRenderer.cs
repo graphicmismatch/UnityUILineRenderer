@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-
+[RequireComponent(typeof(CanvasRenderer))]
 public class UILineRenderer : Graphic
 {
     public Vector2[] points;
