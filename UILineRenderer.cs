@@ -1,23 +1,20 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasRenderer))]
-public class UILineRenderer : Graphic
-{
+public class UILineRenderer : Graphic {
     public Vector2[] points;
-
     public float thickness = 10f;
     public bool center = true;
 
-    protected override void OnPopulateMesh(VertexHelper vh)
-    {
+    protected override void OnPopulateMesh(VertexHelper vh) {
         vh.Clear();
 
         if (points.Length < 2)
             return;
 
-        for (int i = 0; i < points.Length - 1; i++)
-        {
+        for (int i = 0; i < points.Length - 1; i++) {
             // Create a line segment between the next two points
             CreateLineSegment(points[i], points[i + 1], vh);
 
@@ -30,8 +27,7 @@ public class UILineRenderer : Graphic
             // These two triangles create the beveled edges
             // between line segments using the end point of
             // the last line segment and the start points of this one
-            if (i != 0)
-            {
+            if (i != 0) {
                 vh.AddTriangle(index, index - 1, index - 3);
                 vh.AddTriangle(index + 1, index - 1, index - 2);
             }
@@ -44,8 +40,7 @@ public class UILineRenderer : Graphic
     /// <param name="point1">The starting point of the segment</param>
     /// <param name="point2">The endint point of the segment</param>
     /// <param name="vh">The vertex helper that the segment is added to</param>
-    private void CreateLineSegment(Vector3 point1, Vector3 point2, VertexHelper vh)
-    {
+    private void CreateLineSegment(Vector3 point1, Vector3 point2, VertexHelper vh) {
         Vector3 offset = center ? (rectTransform.sizeDelta / 2) : Vector2.zero;
 
         // Create vertex template
@@ -81,8 +76,15 @@ public class UILineRenderer : Graphic
     /// <param name="vertex">The vertex being rotated</param>
     /// <param name="target">The vertex to rotate towards</param>
     /// <returns>The angle required to rotate vertex towards target</returns>
-    private float RotatePointTowards(Vector2 vertex, Vector2 target)
-    {
+    private float RotatePointTowards(Vector2 vertex, Vector2 target) {
         return (float)(Mathf.Atan2(target.y - vertex.y, target.x - vertex.x) * (180 / Mathf.PI));
+    }
+    /// <summary>
+    /// Adds a new Point to the List of Points
+    /// </summary>
+    /// <param name="point">Point to add</param>
+    public void AddCoordinate(Vector2 point) {
+        ArrayUtility.Add(ref points, point);
+        this.SetAllDirty();
     }
 }
