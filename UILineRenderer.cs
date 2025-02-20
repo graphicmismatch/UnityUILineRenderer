@@ -8,14 +8,20 @@ public class UILineRenderer : Graphic {
     public List<Vector2> points = new();
     public float thickness = 10f;
     public bool center = true;
-
+    public bool loop = false;
     protected override void OnPopulateMesh(VertexHelper vh) {
         vh.Clear();
 
         if (points.Count < 2)
             return;
+        if (loop)
+        {
+            points.Add(points[0]);
 
-        for (int i = 0; i < points.Count - 1; i++) {
+        }
+        for (int i = 0; i < points.Count-1; i++) {
+
+       
             // Create a line segment between the next two points
             CreateLineSegment(points[i], points[i + 1], vh);
 
@@ -33,6 +39,12 @@ public class UILineRenderer : Graphic {
                 vh.AddTriangle(index + 1, index - 1, index - 2);
             }
         }
+        if (loop)
+        {
+            points.RemoveAt(points.Count-1);
+
+        }
+
     }
 
     /// <summary>
