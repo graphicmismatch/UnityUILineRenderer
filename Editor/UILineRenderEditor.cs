@@ -7,7 +7,7 @@ public class UILineRenderEditor : Editor {
     private bool addMode = false;
     public override void OnInspectorGUI() {
         DrawDefaultInspector();
-        if (GUILayout.Button(addMode ? "Stop adding points" : "Add points in SceneView")) {
+        if (GUILayout.Button(addMode ? "Exit Edit Mode" : "Edit Line")) {
             addMode = !addMode;
         }
         if (addMode) {
